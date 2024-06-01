@@ -4,13 +4,10 @@
   "description": "API 57 Blocks Challenge",
   "author": "usernow.82@gmail.com",
   "license": "MIT",
-  "bugs": {
-    "url": ""
-  },
-  "homepage": "https://github.com/AlbertHernandez/express-typescript-service-template#readme",
+  "homepage": "https://github.com/UsernowII/57blocks-api#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/"
+    "url": "git+https://github.com/UsernowII/57blocks-api"
   },
   "keywords": [
     "typescript",
