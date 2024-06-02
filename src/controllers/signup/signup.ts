@@ -1,29 +1,39 @@
-import { Response, Request } from "express";
-import { Validation } from "../../interfaces/validation";
-import {ServerError} from "../../errors/server.error";
+import { Response, Request } from 'express';
+import { IValidation } from '../../interfaces/IValidation';
+import { IAuthService } from '../../interfaces/IAuthService';
+import { UniqueEmailError } from '../../errors/unique-email.error';
 
-export class Signup {
-  private readonly authentication: unknown;
-  private readonly validation: Validation;
+export class SignupController {
+  constructor(
+    private readonly authentication: IAuthService,
+    private readonly validation: IValidation,
+  ) {}
 
-  constructor(auth: unknown, validation: Validation) {
-    this.authentication = auth;
-    this.validation = validation;
-  }
-
-  async register(req: Request, res: Response) {
+  async register(req: Request, res: Response): Promise<Response> {
     try {
-      const error = this.validation.validate(req.body);
-      if (error) return res.status(404).json({ error: error.message});
+      const error = this.validation.validate(
+        req.body as Record<string, unknown>,
+      );
+      if (error) return res.status(400).json({ error: error.message });
 
-      // validate if exists in DB
+      const { username, email, password } = req.body;
 
-      return res.status(200).json({})
-    } catch (error: unknown) {
-      const {stack} = error as Error;
+      const user = await this.authentication.add({
+        username,
+        email,
+        password,
+      });
+      return res.status(201).json(user);
+    } catch (error) {
       console.log(error);
-      return res.status(500).json(new ServerError(stack));
+
+      //@ts-expect-error error from database
+      if (error.code === '23505') {
+        const message = new UniqueEmailError().message;
+        return res.status(400).json({ error: message });
+      }
+
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
   }
-
 }

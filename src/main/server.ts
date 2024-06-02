@@ -6,28 +6,25 @@ import express, { Express } from 'express';
 import { env } from './config/env';
 import { ConsoleLogger } from '../shared/logger/console-logger';
 import { ILogger } from '../shared/interfaces/ILogger';
-import routes from "./config/routes";
+import routes from './config/routes';
 
 export class Server {
   private readonly app: Express;
-  private httpServer?: http.Server;
   private readonly logger: ILogger;
+  private httpServer?: http.Server;
 
   constructor() {
     this.logger = new ConsoleLogger();
     this.app = express();
     this.app.use(express.json());
-    routes(this.app)
   }
 
   async start(): Promise<void> {
+    await routes(this.app);
     return new Promise(resolve => {
       this.httpServer = this.app.listen(env.port, () => {
         const { port } = this.httpServer?.address() as AddressInfo;
-        console.log('Running');
-        this.logger.info(
-          `App is ready and listening on port ${port} 🚀`,
-        );
+        this.logger.info(`App is ready and listening on port ${port} 🚀`);
         resolve();
       });
     });
