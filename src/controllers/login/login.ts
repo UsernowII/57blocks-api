@@ -18,8 +18,8 @@ export class LoginController {
       if (error) return res.status(400).json({ error: error.message });
 
       const { email, password } = req.body;
-      await this.authentication.auth({ email, password });
-      return res.status(201).json({});
+      const token = await this.authentication.auth({ email, password });
+      return res.status(201).json(token);
     } catch (error: unknown) {
       console.log(error);
       if (error instanceof InvalidParamError) {

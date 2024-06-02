@@ -4,11 +4,14 @@ import { makeSignUpValidation } from '../../controllers/signup/sign-up.validatio
 import { AuthService } from '../../services/auth.service';
 import { UserPgRepository } from '../../repositories/user-pg.repository';
 import { BcryptAdapter } from '../../adapters/bcrypt-adapter';
+import { JwtAdapter } from '../../adapters/jwt-adapter';
+import { env } from '../config/env';
 
 const validation = makeSignUpValidation();
 const userRepo = new UserPgRepository();
 const bcrypt = new BcryptAdapter();
-const auth = new AuthService(userRepo, bcrypt);
+const jwtAdapter = new JwtAdapter({ ...env });
+const auth = new AuthService(userRepo, bcrypt, jwtAdapter);
 const signupController = new SignupController(auth, validation);
 
 export default (router: Router): void => {
