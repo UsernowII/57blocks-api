@@ -5,13 +5,13 @@ import express, { Express } from 'express';
 
 import { env } from './config/env';
 import { ConsoleLogger } from '../shared/logger/console-logger';
-import { Logger } from '../shared/logger/logger';
+import { ILogger } from '../shared/interfaces/ILogger';
 import routes from "./config/routes";
 
 export class Server {
   private readonly app: Express;
   private httpServer?: http.Server;
-  private readonly logger: Logger;
+  private readonly logger: ILogger;
 
   constructor() {
     this.logger = new ConsoleLogger();

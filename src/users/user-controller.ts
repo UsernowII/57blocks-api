@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 
-import { Logger } from '../shared/logger/logger';
+import { ILogger } from '../shared/interfaces/ILogger';
 
 export class UserController {
   private readonly logger;
 
-  constructor(dependencies: { logger: Logger }) {
+  constructor(dependencies: { logger: ILogger }) {
     this.logger = dependencies.logger;
   }
 
