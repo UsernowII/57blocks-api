@@ -1,8 +1,7 @@
 import { hashSync, compareSync } from 'bcryptjs';
 import { IHasher } from '../interfaces/IHasher';
-import { HashComparer } from '../interfaces/IHashComparer';
 
-export class BcryptAdapter implements IHasher, HashComparer {
+export class BcryptAdapter implements IHasher {
   hash(value: string): string {
     return hashSync(value);
   }

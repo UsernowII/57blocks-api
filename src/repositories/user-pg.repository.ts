@@ -18,4 +18,15 @@ export class UserPgRepository implements IUserRepository {
     );
     return users.rows[0] as User;
   }
+
+  async findOneByEmail(email: string): Promise<User> {
+    const userQuery = await this.client.query(
+      `
+        SELECT email, username, id, password
+        FROM users
+        WHERE email = $1`,
+      [email],
+    );
+    return userQuery.rows[0] as User;
+  }
 }
