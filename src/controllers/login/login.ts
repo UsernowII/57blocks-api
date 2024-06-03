@@ -10,7 +10,6 @@ export class LoginController {
   ) {}
 
   async login(req: Request, res: Response): Promise<Response> {
-    console.log(req.body);
     try {
       const error = this.validation.validate(
         req.body as Record<string, unknown>,
