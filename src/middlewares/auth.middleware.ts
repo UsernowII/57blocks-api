@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { EncryptPayload, IEncryptor } from '../interfaces/IEncryptor';
+import { IMiddleware } from '../interfaces/IMiddleware';
 
-export class AuthMiddleware {
+export class AuthMiddleware implements IMiddleware {
   constructor(private readonly encrypt: IEncryptor) {}
 
   async validate(req: Request, res: Response, next: NextFunction) {

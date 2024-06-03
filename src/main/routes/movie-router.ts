@@ -6,9 +6,13 @@ import { env } from '../config/env';
 import { MovieService } from '../../services/movie.service';
 import { MoviePgRepository } from '../../repositories/movie-pg.repository';
 import { makeAddMovieValidation } from '../../controllers/movie/movie.validation';
+import { SearchParams } from '../../middlewares/search-params.middleware';
 
 const jwtAdapter = new JwtAdapter({ ...env });
 const authMiddleware = new AuthMiddleware(jwtAdapter);
+
+const searchParams = new SearchParams();
+
 const repository = new MoviePgRepository();
 const service = new MovieService(repository);
 
@@ -21,5 +25,17 @@ export default (router: Router): void => {
     [authMiddleware.validate.bind(authMiddleware)],
     movieController.create.bind(movieController),
   );
-  router.put('/movie', movieController.update.bind(movieController));
+  router.get(
+    '/movie',
+    [
+      searchParams.validate.bind(searchParams),
+      authMiddleware.validate.bind(authMiddleware),
+    ],
+    movieController.fetch.bind(movieController),
+  );
+  router.put(
+    '/movie',
+    [authMiddleware.validate.bind(authMiddleware)],
+    movieController.update.bind(movieController),
+  );
 };

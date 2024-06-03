@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { MovieService } from '../../services/movie.service';
 import { IValidation } from '../../interfaces/IValidation';
-import { MovieUnion } from '../../models/movie/movie.dto';
+import { FilterUnion, MovieUnion } from '../../shared/types/types';
 
 export class MovieController {
   constructor(
@@ -18,8 +18,16 @@ export class MovieController {
     return res.status(201).json(movie);
   }
 
-  update() {
+  update(req: Request, res: Response) {
+    console.log(req.body, res);
     console.log('update movie');
     return null;
+  }
+
+  async fetch(req: Request, res: Response) {
+    const { user_token, filter } = req.body as FilterUnion;
+
+    const movies = await this.service.findMovies(filter, user_token.id);
+    return res.status(201).json({ total: movies.length, movies });
   }
 }

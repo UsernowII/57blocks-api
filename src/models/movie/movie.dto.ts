@@ -8,10 +8,3 @@ export interface MovieDTO {
   backdropPath: string;
   overview: string;
 }
-
-export interface UserToken {
-  id: string;
-  email?: string;
-}
-
-export type MovieUnion = MovieDTO & { user_token: UserToken };

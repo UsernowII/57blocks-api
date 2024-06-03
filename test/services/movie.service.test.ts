@@ -1,8 +1,10 @@
 import { Movie } from '../../src/models/movie/movie.entity';
 import { MovieService } from '../../src/services/movie.service';
 import { IMovieRepository } from '../../src/interfaces/IMovieRepository';
-import { MovieDTO, MovieUnion } from '../../src/models/movie/movie.dto';
+import { MovieDTO } from '../../src/models/movie/movie.dto';
 import { IMovieService } from '../../src/interfaces/IMovieService';
+import { MovieUnion } from '../../src/shared/types/types';
+import { QueryParams } from '../../src/shared/types/query-params';
 
 type SutTypes = {
   sut: IMovieService;
@@ -22,6 +24,10 @@ const makeRepository = (): IMovieRepository => {
   class FakeRepository implements IMovieRepository {
     create(_user: MovieDTO): Promise<Movie> {
       return Promise.resolve({ id: '123', isPublic: true } as Movie);
+    }
+
+    find(_filter: QueryParams, _id: string): Promise<Movie[]> {
+      return Promise.resolve([]);
     }
   }
   return new FakeRepository();

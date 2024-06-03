@@ -3,6 +3,7 @@ import { pgClient } from '../db/pg-client';
 import { Movie } from '../models/movie/movie.entity';
 import { MovieDTO } from '../models/movie/movie.dto';
 import { IMovieRepository } from '../interfaces/IMovieRepository';
+import { QueryParams } from '../shared/types/query-params';
 
 export class MoviePgRepository implements IMovieRepository {
   private client: Pool;
@@ -38,5 +39,31 @@ export class MoviePgRepository implements IMovieRepository {
       ],
     );
     return users.rows[0] as Movie;
+  }
+
+  async find(
+    { isPublic, page, limit }: QueryParams,
+    id: string,
+  ): Promise<Movie[]> {
+    const offset = page ? Number(page) - 1 : undefined;
+
+    if (isPublic) {
+      const moviePublicQuery = await this.client.query(
+        `SElECT * FROM movies
+         WHERE is_public = $1 OFFSET $2 LIMIT $3`,
+        [isPublic, offset, limit],
+      );
+      console.log('Retrieving Public Movies');
+      return moviePublicQuery.rows as Movie[];
+    }
+
+    const movieQuery = await this.client.query(
+      `SElECT * FROM movies
+        WHERE user_id = $1 AND is_public = $2
+       OFFSET $3 LIMIT $4`,
+      [id, isPublic, offset, limit],
+    );
+    console.log('Retrieving Private Movies');
+    return movieQuery.rows as Movie[];
   }
 }
