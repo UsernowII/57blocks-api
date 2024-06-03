@@ -6,4 +6,6 @@ export interface IMovieService {
   create: (data: MovieDTO, userId: string) => Promise<Movie>;
 
   findMovies: (filter: QueryParams, id: string) => Promise<Movie[]>;
+
+  update: (movieId: string, userId: string, overview: string) => Promise<Movie>;
 }

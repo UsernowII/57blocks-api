@@ -34,7 +34,7 @@ export default (router: Router): void => {
     movieController.fetch.bind(movieController),
   );
   router.put(
-    '/movie',
+    '/movie/:movieId',
     [authMiddleware.validate.bind(authMiddleware)],
     movieController.update.bind(movieController),
   );

@@ -49,7 +49,8 @@ export class MoviePgRepository implements IMovieRepository {
 
     if (isPublic) {
       const moviePublicQuery = await this.client.query(
-        `SElECT * FROM movies
+        `SElECT id, title, overview, release_date, original_language, genre, is_public, poster_path, backdrop_path
+         FROM movies
          WHERE is_public = $1 OFFSET $2 LIMIT $3`,
         [isPublic, offset, limit],
       );
@@ -58,12 +59,29 @@ export class MoviePgRepository implements IMovieRepository {
     }
 
     const movieQuery = await this.client.query(
-      `SElECT * FROM movies
+      `SElECT id, title, overview, release_date, original_language, genre, is_public, poster_path, backdrop_path
+        FROM movies
         WHERE user_id = $1 AND is_public = $2
-       OFFSET $3 LIMIT $4`,
+        OFFSET $3 LIMIT $4`,
       [id, isPublic, offset, limit],
     );
     console.log('Retrieving Private Movies');
     return movieQuery.rows as Movie[];
+  }
+
+  async updateOverview(movieId: string, overview: string): Promise<Movie> {
+    const movieQuery = await this.client.query(
+      'UPDATE movies SET overview=$1 WHERE id=$2 RETURNING *',
+      [overview, movieId],
+    );
+    return movieQuery.rows[0] as Movie;
+  }
+
+  async findById(movieId: string): Promise<Movie> {
+    const data = await this.client.query(
+      'SELECT id, user_id, is_public FROM movies WHERE id = $1',
+      [movieId],
+    );
+    return data.rows[0] as Movie;
   }
 }
