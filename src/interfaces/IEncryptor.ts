@@ -3,7 +3,7 @@ export type EncryptPayload = {
   email: string;
 };
 export interface IEncryptor {
-  encrypt: (payload: EncryptPayload) => string;
+  encrypt(payload: EncryptPayload): string;
 
-  decrypt: (token: string) => string;
+  decrypt<T>(token: string): Promise<T | null>;
 }

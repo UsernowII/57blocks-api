@@ -16,7 +16,12 @@ export class JwtAdapter implements IEncryptor {
     });
   }
 
-  decrypt(token: string): string {
-    return jwt.verify(token, this.options.jwtSecret) as string;
+  async decrypt<T>(token: string): Promise<T | null> {
+    return new Promise(resolve => {
+      jwt.verify(token, this.options.jwtSecret, (err, decoded) => {
+        if (err) return resolve(null);
+        resolve(decoded as T);
+      });
+    });
   }
 }

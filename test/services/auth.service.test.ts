@@ -46,8 +46,8 @@ const makeHasher = (): IHasher => {
 
 const makeEncrypt = (): IEncryptor => {
   class EncryptorStub implements IEncryptor {
-    decrypt(_token: string): string {
-      return 'true';
+    async decrypt<T>(_token: string): Promise<T> {
+      return Promise.resolve({ id: '123' } as T);
     }
 
     encrypt(_payload: EncryptPayload): string {
