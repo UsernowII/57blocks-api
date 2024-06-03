@@ -1,10 +1,11 @@
-import { ValidationComposite } from '../../validations/validation-composite';
-import { IValidation } from '../../interfaces/IValidation';
-import { RequiredFieldsValidation } from '../../validations/required-fields';
-import { CompareFieldsValidation } from '../../validations/compare-fields';
-import { EmailValid } from '../../validations/email-valid';
-import { PasswordValid } from '../../validations/password-valid';
-
+import { IValidation } from '../../interfaces';
+import { ValidationComposite } from '../../validations';
+import {
+  RequiredFieldsValidation,
+  CompareFieldsValidation,
+  EmailValid,
+  PasswordValid,
+} from '../../validations';
 export const makeSignUpValidation = (): ValidationComposite => {
   const requiredFields = [
     'username',

@@ -1,10 +1,8 @@
-import { IMovieService } from '../interfaces/IMovieService';
+import { IMovieService, IMovieRepository } from '../interfaces';
 import { Movie } from '../models/movie/movie.entity';
 import { MovieDTO } from '../models/movie/movie.dto';
-import { IMovieRepository } from '../interfaces/IMovieRepository';
 import { QueryParams } from '../shared/types/query-params';
-import { AccessDeniedError } from '../errors/access-denied.error';
-import { InvalidParamError } from '../errors/invalid-param.error';
+import { AccessDeniedError, InvalidParamError } from '../errors';
 
 export class MovieService implements IMovieService {
   constructor(private readonly repository: IMovieRepository) {}

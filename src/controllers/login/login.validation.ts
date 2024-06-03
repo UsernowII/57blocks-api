@@ -1,8 +1,10 @@
-import { ValidationComposite } from '../../validations/validation-composite';
-import { IValidation } from '../../interfaces/IValidation';
-import { RequiredFieldsValidation } from '../../validations/required-fields';
-import { EmailValid } from '../../validations/email-valid';
-import { PasswordValid } from '../../validations/password-valid';
+import { IValidation } from '../../interfaces';
+import {
+  ValidationComposite,
+  RequiredFieldsValidation,
+  EmailValid,
+  PasswordValid,
+} from '../../validations';
 
 export const makeLoginValidation = (): ValidationComposite => {
   const requiredFields = ['email', 'password'];

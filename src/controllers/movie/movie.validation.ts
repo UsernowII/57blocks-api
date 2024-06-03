@@ -1,7 +1,9 @@
-import { ValidationComposite } from '../../validations/validation-composite';
-import { RequiredFieldsValidation } from '../../validations/required-fields';
-import { IValidation } from '../../interfaces/IValidation';
-import { DateValid } from '../../validations/date-valid';
+import { IValidation } from '../../interfaces';
+import {
+  ValidationComposite,
+  RequiredFieldsValidation,
+  DateValid,
+} from '../../validations';
 
 export const makeAddMovieValidation = (): ValidationComposite => {
   const requiredFields = [

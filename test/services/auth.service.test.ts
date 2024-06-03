@@ -1,10 +1,13 @@
-import { AuthService } from '../../src/services/auth.service';
-import { IHasher } from '../../src/interfaces/IHasher';
-import { IUserRepository } from '../../src/interfaces/IUserRepository';
+import { AuthService } from '../../src/services';
 import { UserDTO } from '../../src/models/user/user.dto';
 import { User } from '../../src/models/user/user.entity';
-import { IAuthService } from '../../src/interfaces/IAuthService';
-import { EncryptPayload, IEncryptor } from '../../src/interfaces/IEncryptor';
+import {
+  IAuthService,
+  EncryptPayload,
+  IEncryptor,
+  IUserRepository,
+  IHasher,
+} from '../../src/interfaces';
 
 type SutTypes = {
   sut: IAuthService;

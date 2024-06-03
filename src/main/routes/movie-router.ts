@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { MovieController } from '../../controllers/movie/movie';
-import { AuthMiddleware } from '../../middlewares/auth.middleware';
+import { AuthMiddleware } from '../../middlewares';
 import { JwtAdapter } from '../../adapters/jwt-adapter';
-import { env } from '../config/env';
-import { MovieService } from '../../services/movie.service';
-import { MoviePgRepository } from '../../repositories/movie-pg.repository';
+import { MovieService } from '../../services';
+import { MoviePgRepository } from '../../repositories';
 import { makeAddMovieValidation } from '../../controllers/movie/movie.validation';
-import { SearchParams } from '../../middlewares/search-params.middleware';
+import { SearchParams } from '../../middlewares';
+import { env } from '../config/env';
 
 const jwtAdapter = new JwtAdapter({ ...env });
 const authMiddleware = new AuthMiddleware(jwtAdapter);

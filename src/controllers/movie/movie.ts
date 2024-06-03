@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { MovieService } from '../../services/movie.service';
-import { IValidation } from '../../interfaces/IValidation';
-import { FilterUnion, MovieUnion, UpdateUnion } from '../../shared/types/types';
-import { InvalidParamError } from '../../errors/invalid-param.error';
-import { AccessDeniedError } from '../../errors/access-denied.error';
+import { MovieService } from '../../services';
+import { IValidation } from '../../interfaces';
+import { FilterUnion, MovieUnion, UpdateUnion } from '../../shared/types';
+import { InvalidParamError, AccessDeniedError } from '../../errors';
 import { REGEX_UUID } from '../../shared/util/constants';
 
 export class MovieController {

@@ -1,10 +1,8 @@
 import { Movie } from '../../src/models/movie/movie.entity';
-import { MovieService } from '../../src/services/movie.service';
-import { IMovieRepository } from '../../src/interfaces/IMovieRepository';
+import { MovieService } from '../../src/services';
 import { MovieDTO } from '../../src/models/movie/movie.dto';
-import { IMovieService } from '../../src/interfaces/IMovieService';
-import { QueryParams } from '../../src/shared/types/query-params';
-import { UserToken } from '../../src/shared/types/user-token';
+import { IMovieService, IMovieRepository } from '../../src/interfaces';
+import { QueryParams, UserToken } from '../../src/shared/types';
 
 type SutTypes = {
   sut: IMovieService;

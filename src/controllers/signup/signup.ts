@@ -1,7 +1,6 @@
 import { Response, Request } from 'express';
-import { IValidation } from '../../interfaces/IValidation';
-import { IAuthService } from '../../interfaces/IAuthService';
-import { UniqueEmailError } from '../../errors/unique-email.error';
+import { IValidation, IAuthService } from '../../interfaces';
+import { UniqueEmailError } from '../../errors';
 
 export class SignupController {
   constructor(

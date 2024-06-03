@@ -1,10 +1,13 @@
-import { Auth, IAuthService } from '../interfaces/IAuthService';
+import {
+  Auth,
+  IAuthService,
+  IUserRepository,
+  IHasher,
+  IEncryptor,
+} from '../interfaces';
 import { User } from '../models/user/user.entity';
-import { IUserRepository } from '../interfaces/IUserRepository';
 import { UserDTO } from '../models/user/user.dto';
-import { IHasher } from '../interfaces/IHasher';
-import { InvalidParamError } from '../errors/invalid-param.error';
-import { IEncryptor } from '../interfaces/IEncryptor';
+import { InvalidParamError } from '../errors';
 
 export class AuthService implements IAuthService {
   constructor(

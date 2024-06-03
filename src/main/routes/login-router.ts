@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { AuthService } from '../../services/auth.service';
-import { UserPgRepository } from '../../repositories/user-pg.repository';
+import { AuthService } from '../../services';
+import { UserPgRepository } from '../../repositories';
 import { BcryptAdapter } from '../../adapters/bcrypt-adapter';
 import { LoginController } from '../../controllers/login/login';
 import { makeLoginValidation } from '../../controllers/login/login.validation';

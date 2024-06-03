@@ -1,7 +1,6 @@
 import { Response, Request } from 'express';
-import { IValidation } from '../../interfaces/IValidation';
-import { IAuthService } from '../../interfaces/IAuthService';
-import { InvalidParamError } from '../../errors/invalid-param.error';
+import { IValidation, IAuthService } from '../../interfaces';
+import { InvalidParamError } from '../../errors';
 
 export class LoginController {
   constructor(
