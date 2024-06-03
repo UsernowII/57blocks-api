@@ -1,6 +1,6 @@
 import { Movie } from '../models/movie/movie.entity';
 import { MovieDTO } from '../models/movie/movie.dto';
-import { QueryParams } from '../shared/types/query-params';
+import { QueryParams } from '../shared/types';
 
 export interface IMovieService {
   create: (data: MovieDTO, userId: string) => Promise<Movie>;

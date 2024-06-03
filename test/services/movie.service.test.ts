@@ -77,4 +77,12 @@ describe('MovieService', () => {
       expect(res).toEqual(makeFakeResponse());
     });
   });
+
+  describe('findMovies method', () => {
+    it('should return data', async () => {
+      const { sut } = makeSut();
+      const res = await sut.findMovies({ isPublic: false }, '123');
+      expect(res).toEqual([]);
+    });
+  });
 });
