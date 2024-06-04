@@ -25,6 +25,7 @@
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:unit": "yarn test --watchAll -c jest-unit-config.js",
     "test:e2e": "yarn test --watchAll -c jest-e2e-config.js",
+    "test:cov": "yarn test --coverage",
     "prepare": "husky",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "npm run lint -- --fix",

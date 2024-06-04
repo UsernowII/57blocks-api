@@ -8,6 +8,7 @@ import {
   IUserRepository,
   IHasher,
 } from '../../src/interfaces';
+import { InvalidParamError } from '../../src/errors';
 
 type SutTypes = {
   sut: IAuthService;
@@ -37,7 +38,7 @@ const makeRepository = (): IUserRepository => {
 const makeHasher = (): IHasher => {
   class HasherStub implements IHasher {
     hash(value: string): string {
-      return `${value}.hashed`;
+      return `${value}-hashed`;
     }
 
     compare(_value: string, _hash: string): boolean {
@@ -81,10 +82,69 @@ const makeFakePayload = (): UserDTO => ({
 
 describe('AuthService', () => {
   describe('auth method', () => {
-    it('should return data', async () => {
+    it('should call repository with correct values', async () => {
+      const { repoStub, sut } = makeSut();
+      const repoSpy = jest.spyOn(repoStub, 'findOneByEmail');
+      await sut.auth(makeFakePayload());
+      expect(repoSpy).toHaveBeenCalledWith('any@email.com');
+    });
+
+    it('should throw an error if user not found', async () => {
+      const { repoStub, sut } = makeSut();
+      jest
+        .spyOn(repoStub, 'findOneByEmail')
+        .mockResolvedValueOnce(null as never);
+      const promise = sut.auth(makeFakePayload());
+      await expect(promise).rejects.toThrow(
+        new InvalidParamError('any@email.com'),
+      );
+    });
+
+    it('should call hasher with correct values', async () => {
+      const { hasherStub, sut } = makeSut();
+      const hasherSpy = jest.spyOn(hasherStub, 'compare');
+      await sut.auth(makeFakePayload());
+      expect(hasherSpy).toHaveBeenCalledWith('any-password', 'password-hashed');
+    });
+
+    it('should throw an error if password dont match', async () => {
+      const { hasherStub, sut } = makeSut();
+      jest.spyOn(hasherStub, 'compare').mockReturnValueOnce(false);
+      const promise = sut.auth(makeFakePayload());
+      await expect(promise).rejects.toThrow(new InvalidParamError('password'));
+    });
+
+    it('should return a token on success', async () => {
       const { sut } = makeSut();
       const res = await sut.auth(makeFakePayload());
       expect(res).toEqual({ accessToken: 'valid-token' });
+    });
+  });
+
+  describe('add method', () => {
+    it('should call hasher with correct values', async () => {
+      const { hasherStub, sut } = makeSut();
+      const hasherSpy = jest.spyOn(hasherStub, 'hash');
+      await sut.add(makeFakePayload());
+      expect(hasherSpy).toHaveBeenCalledWith('any-password');
+    });
+
+    it('should call repository with correct values', async () => {
+      const { repoStub, sut } = makeSut();
+      const payload = makeFakePayload();
+      const repoSpy = jest.spyOn(repoStub, 'create');
+      await sut.add(payload);
+      expect(repoSpy).toHaveBeenCalledWith({
+        password: 'any-password-hashed',
+        username: payload.username,
+        email: payload.email,
+      });
+    });
+
+    it('should return an user on success', async () => {
+      const { sut } = makeSut();
+      const res = await sut.add(makeFakePayload());
+      expect(res).toHaveProperty('id', '123');
     });
   });
 });
