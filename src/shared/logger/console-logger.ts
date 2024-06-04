@@ -9,4 +9,8 @@ export class ConsoleLogger implements ILogger {
 
     console.log(message_);
   }
+
+  error(message: unknown): void {
+    console.error(message);
+  }
 }

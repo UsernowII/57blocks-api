@@ -10,6 +10,7 @@ import { IAuthService } from '../../src/interfaces';
 import { makeSignUpValidation } from '../../src/controllers/signup/sign-up.validation';
 import { makeFakeAuthService } from '../mocks/auth.service.mock';
 import { UniqueEmailError } from '../../src/errors';
+import { ConsoleLogger } from '../../src/shared/logger/console-logger';
 
 class CustomError extends Error {
   public code: string;
@@ -34,8 +35,9 @@ describe('SignupController', () => {
 
   beforeEach(() => {
     const loginValidation = makeSignUpValidation();
+    const logger = new ConsoleLogger();
     authService = makeFakeAuthService();
-    controller = new SignupController(authService, loginValidation);
+    controller = new SignupController(authService, loginValidation, logger);
     response = createResponse();
   });
 

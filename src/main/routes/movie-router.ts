@@ -7,6 +7,7 @@ import { MoviePgRepository } from '../../repositories';
 import { makeAddMovieValidation } from '../../controllers/movie/movie.validation';
 import { SearchParams } from '../../middlewares';
 import { env } from '../config/env';
+import { ConsoleLogger } from '../../shared/logger/console-logger';
 
 const jwtAdapter = new JwtAdapter({ ...env });
 const authMiddleware = new AuthMiddleware(jwtAdapter);
@@ -17,7 +18,8 @@ const repository = new MoviePgRepository();
 const service = new MovieService(repository);
 
 const addValidation = makeAddMovieValidation();
-const movieController = new MovieController(service, addValidation);
+const logger = new ConsoleLogger();
+const movieController = new MovieController(service, addValidation, logger);
 
 export default (router: Router): void => {
   router.post(

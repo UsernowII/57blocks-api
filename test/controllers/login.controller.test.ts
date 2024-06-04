@@ -10,6 +10,7 @@ import { IAuthService } from '../../src/interfaces';
 import { makeLoginValidation } from '../../src/controllers/login/login.validation';
 import { makeFakeAuthService } from '../mocks/auth.service.mock';
 import { InvalidParamError } from '../../src/errors';
+import { ConsoleLogger } from '../../src/shared/logger/console-logger';
 
 const makeFakeBody = () => ({
   email: 'any@gmail.com',
@@ -24,8 +25,9 @@ describe('LoginController', () => {
 
   beforeEach(() => {
     const loginValidation = makeLoginValidation();
+    const logger = new ConsoleLogger();
     authService = makeFakeAuthService();
-    controller = new LoginController(authService, loginValidation);
+    controller = new LoginController(authService, loginValidation, logger);
     response = createResponse();
   });
 
