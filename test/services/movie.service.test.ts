@@ -3,6 +3,7 @@ import { MovieService } from '../../src/services';
 import { MovieDTO } from '../../src/models/movie/movie.dto';
 import { IMovieService, IMovieRepository } from '../../src/interfaces';
 import { QueryParams, UserToken } from '../../src/shared/types';
+import { AccessDeniedError, InvalidParamError } from '../../src/errors';
 
 type SutTypes = {
   sut: IMovieService;
@@ -31,7 +32,7 @@ const makeRepository = (): IMovieRepository => {
     findById(
       movieId: string,
     ): Promise<Pick<Movie, 'id' | 'is_public' | 'user_id'>> {
-      return Promise.resolve({ id: movieId, is_public: false });
+      return Promise.resolve({ id: movieId, is_public: false, user_id: '123' });
     }
 
     updateOverview(movieId: string, overview: string): Promise<Movie> {
@@ -47,7 +48,7 @@ const makeUserToken = (): UserToken => ({
 });
 
 const makeFakeResponse = (): Movie => ({
-  id: '123',
+  id: 'movie-1234',
   is_public: false,
   title: 'any-title',
   release_date: new Date('1999-12-31'),
@@ -79,6 +80,36 @@ describe('MovieService', () => {
   });
 
   describe('findMovies method', () => {
+    it('should return data', async () => {
+      const { sut } = makeSut();
+      const res = await sut.findMovies({ isPublic: false }, '123');
+      expect(res).toEqual([]);
+    });
+  });
+
+  describe('update method', () => {
+    it('should call repository with correct values', async () => {
+      const { repoStub, sut } = makeSut();
+      const repoSpy = jest.spyOn(repoStub, 'findById');
+      await sut.update('movie-1234', '123', 'to-update');
+      expect(repoSpy).toHaveBeenCalledWith('movie-1234');
+    });
+
+    it('should throw an error if movie not found', async () => {
+      const { repoStub, sut } = makeSut();
+      jest.spyOn(repoStub, 'findById').mockResolvedValueOnce(null as never);
+      const promise = sut.update('132', 'not-exist', 'to-update');
+      await expect(promise).rejects.toThrow(
+        new InvalidParamError('Not Found movie id 132'),
+      );
+    });
+
+    it('should throw an error if user is not owner for movie', async () => {
+      const { sut } = makeSut();
+      const promise = sut.update('movie-1234', 'not-owner', 'to-update');
+      await expect(promise).rejects.toThrowError(AccessDeniedError);
+    });
+
     it('should return data', async () => {
       const { sut } = makeSut();
       const res = await sut.findMovies({ isPublic: false }, '123');

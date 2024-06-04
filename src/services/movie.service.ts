@@ -1,7 +1,7 @@
 import { IMovieService, IMovieRepository } from '../interfaces';
 import { Movie } from '../models/movie/movie.entity';
 import { MovieDTO } from '../models/movie/movie.dto';
-import { QueryParams } from '../shared/types/query-params';
+import { QueryParams } from '../shared/types';
 import { AccessDeniedError, InvalidParamError } from '../errors';
 
 export class MovieService implements IMovieService {
