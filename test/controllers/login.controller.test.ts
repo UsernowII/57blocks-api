@@ -46,6 +46,20 @@ describe('LoginController', () => {
       expect(result).toEqual({ error: 'Missing param: password' });
     });
 
+    it('should return 400 if email is not valid', async () => {
+      const body = makeFakeBody();
+      body.email = 'invalid-email';
+      request = createRequest({
+        method: 'POST',
+        body,
+      });
+
+      await controller.login(request, response);
+      const result = response._getJSONData();
+      expect(response.statusCode).toBe(400);
+      expect(result).toEqual({ error: 'Invalid param: email' });
+    });
+
     it('should return 201 and an access token', async () => {
       request = createRequest({
         method: 'POST',

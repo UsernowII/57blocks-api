@@ -4,8 +4,8 @@ import { UserDTO } from '../../src/models/user/user.dto';
 
 export const makeFakeAuthService = (): IAuthService => {
   class FakeAuthService implements IAuthService {
-    add(): Promise<User> {
-      return Promise.resolve({} as User);
+    add(data: Omit<UserDTO, 'username'>): Promise<User> {
+      return Promise.resolve(data as User);
     }
 
     auth(_data: Omit<UserDTO, 'username'>): Promise<Auth> {

@@ -24,7 +24,7 @@ export class SignupController {
       });
       return res.status(201).json(user);
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       //@ts-expect-error error from database
       if (error.code === '23505') {
