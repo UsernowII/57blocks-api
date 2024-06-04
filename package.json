@@ -30,7 +30,7 @@
     "lint:fix": "npm run lint -- --fix",
     "build:clean": "rimraf dist; exit 0",
     "validate-typescript": "tsc -p tsconfig.prod.json --noEmit",
-    "generate-dist": "tsc"
+    "generate-dist": "tsc -p tsconfig.prod.json"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
