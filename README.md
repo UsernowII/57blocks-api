@@ -1,6 +1,7 @@
 # Requirements
 
-- Node.js v20+ or Docker and Docker Compose
+- Node.js v20+
+- Docker and Docker Compose
 - Yarn v1.22.19
 - Postgres running on local instance or Docker
 
@@ -90,6 +91,12 @@ If you are interested just in the unit tests, you can run:
 yarn test:unit
 ```
 
+Coverage, you can run:
+
+```bash
+yarn test:cov
+```
+
 ## 💅 Linting
 
 To run the linter you can execute:
@@ -112,12 +119,6 @@ yarn lint:fix
 
 ```http request
 http://localhost:3001/api
-```
-
-### Production Environment
-
-```http request
-https://five7blocks-api.onrender.com/api
 ```
 
 ### Register a New User.
